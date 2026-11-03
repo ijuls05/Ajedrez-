@@ -1,0 +1,479 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Chess Academy | Aprende ajedrez desde cero</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header class="navbar">
+    <a href="#inicio" class="logo">♞ Chess Academy</a>
+
+    <nav>
+        <a href="#piezas">Las piezas</a>
+        <a href="#reglas">Reglas</a>
+        <a href="#practica">Practicar</a>
+        <a href="#quiz">Quiz</a>
+    </nav>
+</header>
+
+
+<main>
+
+    <!-- BIENVENIDA -->
+    <section class="hero" id="inicio">
+
+        <div class="hero-text">
+            <span class="badge">TU AVENTURA COMIENZA AQUÍ</span>
+
+            <h1>Tu primera jugada <span>comienza aquí.</span></h1>
+
+            <p>
+                Aprende ajedrez desde cero. Descubre las piezas,
+                comprende sus movimientos y practica tus primeras
+                jugadas a tu propio ritmo.
+            </p>
+
+            <a href="#piezas" class="primary-button">
+                Comenzar a aprender →
+            </a>
+
+            <div class="stats">
+                <div>
+                    <strong>6</strong>
+                    <span>Tipos de piezas</span>
+                </div>
+                <div>
+                    <strong>∞</strong>
+                    <span>Posibilidades</span>
+                </div>
+                <div>
+                    <strong>1</strong>
+                    <span>Objetivo: aprender</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="hero-circle"></div>
+            <span class="hero-knight">♞</span>
+            <div class="hero-card">
+                <strong>Aprende. Practica. Domina.</strong>
+                <span>Una jugada a la vez.</span>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- LAS PIEZAS -->
+    <section class="section" id="piezas">
+
+        <div class="section-heading">
+            <span class="badge">LECCIÓN 01</span>
+            <h2>Conoce las piezas</h2>
+            <p>
+                Cada pieza tiene su propia forma de moverse.
+                ¡Descubre cómo funciona cada una!
+            </p>
+        </div>
+
+        <div class="piece-grid">
+
+            <button class="piece-card active" data-piece="king">
+                <span class="piece-symbol">♔</span>
+                <h3>Rey</h3>
+                <p>El más importante.</p>
+            </button>
+
+            <button class="piece-card" data-piece="queen">
+                <span class="piece-symbol">♕</span>
+                <h3>Reina</h3>
+                <p>La más poderosa.</p>
+            </button>
+
+            <button class="piece-card" data-piece="rook">
+                <span class="piece-symbol">♖</span>
+                <h3>Torre</h3>
+                <p>Se mueve en línea recta.</p>
+            </button>
+
+            <button class="piece-card" data-piece="bishop">
+                <span class="piece-symbol">♗</span>
+                <h3>Alfil</h3>
+                <p>Se mueve en diagonal.</p>
+            </button>
+
+            <button class="piece-card" data-piece="knight">
+                <span class="piece-symbol">♘</span>
+                <h3>Caballo</h3>
+                <p>Se mueve en forma de L.</p>
+            </button>
+
+            <button class="piece-card" data-piece="pawn">
+                <span class="piece-symbol">♙</span>
+                <h3>Peón</h3>
+                <p>Avanza y captura.</p>
+            </button>
+
+        </div>
+
+        <div class="lesson-detail">
+
+            <div class="lesson-description">
+                <span class="badge">DESCUBRE SU MOVIMIENTO</span>
+
+                <h3 id="piece-title">El rey</h3>
+
+                <p id="piece-description">
+                    El rey puede moverse una casilla en cualquier
+                    dirección: hacia adelante, atrás, a los lados
+                    o en diagonal.
+                </p>
+
+                <div class="tip">
+                    <strong>💡 Recuerda:</strong>
+                    <span id="piece-tip">
+                        El rey nunca puede moverse a una casilla
+                        donde pueda ser capturado.
+                    </span>
+                </div>
+
+                <button class="primary-button" id="piece-practice-btn">
+                    Practicar este movimiento →
+                </button>
+            </div>
+
+            <div class="lesson-visual">
+                <div class="mini-board" id="mini-board"></div>
+                <p class="board-caption">
+                    Las casillas verdes muestran los movimientos
+                    posibles en este ejemplo.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- REGLAS -->
+    <section class="section rules-section" id="reglas">
+
+        <div class="section-heading">
+            <span class="badge">LECCIÓN 02</span>
+            <h2>Las reglas del juego</h2>
+            <p>
+                Aprende las reglas esenciales antes de jugar
+                tu primera partida.
+            </p>
+        </div>
+
+        <div class="rules-grid">
+
+            <article class="rule-card">
+                <span>♟</span>
+                <h3>El objetivo</h3>
+                <p>
+                    El objetivo es dar jaque mate al rey rival.
+                    Esto significa que está amenazado y no
+                    tiene ninguna jugada legal para escapar.
+                </p>
+            </article>
+
+            <article class="rule-card">
+                <span>♚</span>
+                <h3>El jaque</h3>
+                <p>
+                    El rey está en jaque cuando una pieza
+                    enemiga amenaza con capturarlo.
+                    Debes eliminar la amenaza.
+                </p>
+            </article>
+
+            <article class="rule-card">
+                <span>♜</span>
+                <h3>El enroque</h3>
+                <p>
+                    Es una jugada especial entre el rey y una
+                    torre. Se utiliza para proteger al rey.
+                    Deben cumplirse ciertas condiciones.
+                </p>
+            </article>
+
+            <article class="rule-card">
+                <span>♙</span>
+                <h3>La coronación</h3>
+                <p>
+                    Cuando un peón llega a la última fila,
+                    puede convertirse en reina, torre,
+                    alfil o caballo.
+                </p>
+            </article>
+
+            <article class="rule-card">
+                <span>½</span>
+                <h3>Las tablas</h3>
+                <p>
+                    Una partida puede terminar en empate,
+                    por ejemplo, cuando hay ahogado
+                    o se acuerdan las tablas.
+                </p>
+            </article>
+
+            <article class="rule-card">
+                <span>↔</span>
+                <h3>Los turnos</h3>
+                <p>
+                    Las blancas realizan el primer movimiento.
+                    Luego los jugadores se alternan,
+                    realizando una jugada por turno.
+                </p>
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- PRÁCTICA -->
+    <section class="section practice-section" id="practica">
+
+        <div class="section-heading">
+            <span class="badge">LECCIÓN 03</span>
+            <h2>¡Ahora te toca a ti!</h2>
+            <p>
+                Selecciona una pieza y prueba sus movimientos.
+                Las casillas verdes indican dónde puedes moverla.
+            </p>
+        </div>
+
+        <div class="practice-layout">
+
+            <div class="practice-info">
+
+                <span class="badge">MODO DE PRÁCTICA</span>
+
+                <h3 id="practice-title">Practica con el rey</h3>
+
+                <p id="practice-description">
+                    Haz clic en el rey y luego en una casilla
+                    verde para moverlo.
+                </p>
+
+                <div class="piece-selector">
+
+                    <button class="selector-btn active" data-piece="king">♔ Rey</button>
+                    <button class="selector-btn" data-piece="queen">♕ Reina</button>
+                    <button class="selector-btn" data-piece="rook">♖ Torre</button>
+                    <button class="selector-btn" data-piece="bishop">♗ Alfil</button>
+                    <button class="selector-btn" data-piece="knight">♘ Caballo</button>
+                    <button class="selector-btn" data-piece="pawn">♙ Peón</button>
+
+                </div>
+
+                <div class="feedback" id="feedback">
+                    Selecciona una pieza para comenzar.
+                </div>
+
+                <button class="secondary-button" id="reset-board">
+                    Reiniciar ejercicio
+                </button>
+
+            </div>
+
+            <div class="practice-board-area">
+
+                <div class="board-label">
+                    <span>♙ Blancas</span>
+                    <span>Tablero de práctica</span>
+                </div>
+
+                <div class="chessboard" id="practice-board"></div>
+
+                <p class="board-caption">
+                    Este ejercicio enseña los movimientos de las
+                    piezas. No representa una partida completa.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- QUIZ -->
+     
+<!-- JUGAR CONTRA LA IA -->
+<section class="section bot-section" id="bots">
+
+    <div class="section-heading">
+        <span class="badge">LECCIÓN 05</span>
+        <h2>Juega contra la inteligencia artificial</h2>
+        <p>
+            Pon a prueba tus conocimientos y enfréntate
+            a diferentes niveles de dificultad.
+        </p>
+    </div>
+
+    <div class="bot-container">
+
+        <div class="bot-sidebar">
+
+            <span class="badge">ELIGE TU OPONENTE</span>
+
+            <h3>¿A quién quieres desafiar?</h3>
+
+            <p>
+                Selecciona la dificultad de tu rival.
+                Tú jugarás con las piezas blancas.
+            </p>
+
+            <label for="bot-level">Nivel de dificultad</label>
+
+            <select id="bot-level">
+                <option value="easy">Principiante · Fácil</option>
+                <option value="medium">Estratega · Medio</option>
+                <option value="hard">Maestro · Difícil</option>
+            </select>
+
+            <div class="bot-profile">
+                <div class="bot-avatar">♟</div>
+                <div>
+                    <strong id="bot-name">Bot Principiante</strong>
+                    <span id="bot-description">
+                        Un rival para comenzar a practicar.
+                    </span>
+                </div>
+            </div>
+
+            <div class="game-status" id="game-status">
+                ¡Tu turno! Mueve una pieza blanca.
+            </div>
+
+            <div class="game-buttons">
+                <button class="primary-button" id="new-game">
+                    ↻ Nueva partida
+                </button>
+            </div>
+
+            <div class="move-history">
+                <h4>Historial de movimientos</h4>
+                <div id="move-history-list">
+                    Todavía no hay movimientos.
+                </div>
+            </div>
+
+        </div>
+
+        <div class="bot-board-container">
+
+            <div class="bot-player">
+                <span class="player-icon">♟</span>
+                <div>
+                    <strong id="bot-player-name">Bot Principiante</strong>
+                    <span>Negras · Inteligencia artificial</span>
+                </div>
+            </div>
+
+            <div class="chessboard bot-chessboard" id="bot-board">
+            </div>
+
+            <div class="bot-player human-player">
+                <span class="player-icon">♙</span>
+                <div>
+                    <strong>Tú</strong>
+                    <span>Blancas · Tu turno</span>
+                </div>
+            </div>
+
+            <p class="board-caption">
+                Selecciona una pieza blanca y después
+                una casilla resaltada para moverla.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+    <section class="section quiz-section" id="quiz">
+
+        <div class="section-heading">
+            <span class="badge">LECCIÓN 04</span>
+            <h2>Comprueba lo que aprendiste</h2>
+            <p>
+                Responde las preguntas y demuestra
+                cuánto sabes de ajedrez.
+            </p>
+        </div>
+
+        <div class="quiz-card">
+
+            <div class="quiz-progress">
+                <span id="quiz-count">Pregunta 1 de 5</span>
+                <span id="quiz-score">Puntos: 0</span>
+            </div>
+
+            <div class="progress-track">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+
+            <h3 id="quiz-question">
+                ¿Qué pieza se mueve en forma de L?
+            </h3>
+
+            <div class="quiz-options" id="quiz-options"></div>
+
+            <p class="quiz-feedback" id="quiz-feedback"></p>
+
+            <button class="primary-button" id="quiz-next" disabled>
+                Siguiente pregunta →
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- FINAL -->
+    <section class="final-section">
+
+        <span class="final-piece">♛</span>
+
+        <h2>Todo gran jugador comenzó desde cero.</h2>
+
+        <p>
+            Sigue practicando y descubre hasta dónde
+            puedes llegar.
+        </p>
+
+        <a href="#inicio" class="primary-button">
+            Volver al inicio ↑
+        </a>
+
+    </section>
+
+</main>
+
+
+<footer class="footer">
+    <a href="#inicio" class="logo">♞ Chess Academy</a>
+    <p>El conocimiento es la primera jugada.</p>
+    <span>© 2026 Chess Academy</span>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

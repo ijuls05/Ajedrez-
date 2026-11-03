@@ -1,0 +1,1202 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f8f9fc;
+    color: #25243a;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+
+/* NAVEGACIÓN */
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding: 20px 8%;
+    background: white;
+    border-bottom: 1px solid #ececf4;
+
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: bold;
+    color: #292640;
+}
+
+.logo:first-letter {
+    color: #7561ee;
+}
+
+nav {
+    display: flex;
+    gap: 25px;
+}
+
+nav a {
+    font-size: 14px;
+    color: #6d6d80;
+}
+
+nav a:hover {
+    color: #7561ee;
+}
+
+
+/* BOTONES */
+
+.primary-button {
+    display: inline-block;
+    border: none;
+    border-radius: 10px;
+
+    background: #7561ee;
+    color: white;
+
+    padding: 15px 23px;
+
+    font-weight: bold;
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+.primary-button:hover {
+    background: #5947d2;
+    transform: translateY(-2px);
+}
+
+.primary-button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.secondary-button {
+    border: 1px solid #ddd9fa;
+    border-radius: 9px;
+
+    background: white;
+    color: #7561ee;
+
+    padding: 12px 18px;
+    font-weight: bold;
+}
+
+
+/* ETIQUETAS */
+
+.badge {
+    display: inline-block;
+
+    padding: 8px 13px;
+
+    border-radius: 30px;
+
+    background: #eae6ff;
+    color: #7561ee;
+
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+
+    margin-bottom: 20px;
+}
+
+
+/* PRESENTACIÓN */
+
+.hero {
+    min-height: 570px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+
+    padding: 80px 10%;
+
+    background: linear-gradient(
+        135deg,
+        #efedff,
+        #ffffff,
+        #f3f0ff
+    );
+
+    overflow: hidden;
+}
+
+.hero-text {
+    max-width: 570px;
+}
+
+.hero h1 {
+    font-size: 57px;
+    line-height: 1.13;
+    letter-spacing: -2px;
+
+    margin-bottom: 25px;
+}
+
+.hero h1 span {
+    display: block;
+    color: #7561ee;
+}
+
+.hero-text p {
+    color: #777b90;
+    font-size: 16px;
+    line-height: 1.9;
+
+    margin-bottom: 30px;
+}
+
+.stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 45px;
+}
+
+.stats div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stats strong {
+    font-size: 25px;
+    color: #7561ee;
+}
+
+.stats span {
+    font-size: 12px;
+    color: #777b90;
+}
+
+
+/* ILUSTRACIÓN */
+
+.hero-visual {
+    width: 350px;
+    height: 350px;
+
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-shrink: 0;
+}
+
+.hero-circle {
+    width: 330px;
+    height: 330px;
+
+    position: absolute;
+
+    background: #e4dfff;
+    border: 2px solid #d4cbff;
+    border-radius: 50%;
+}
+
+.hero-knight {
+    position: relative;
+    z-index: 2;
+
+    font-size: 220px;
+    color: #7561ee;
+}
+
+.hero-card {
+    position: absolute;
+    z-index: 3;
+
+    bottom: 5px;
+    left: -50px;
+
+    padding: 18px 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+
+    background: white;
+    border-radius: 14px;
+
+    box-shadow: 0 15px 35px #00000012;
+}
+
+.hero-card strong {
+    font-size: 13px;
+}
+
+.hero-card span {
+    font-size: 11px;
+    color: #888b9e;
+}
+
+
+/* SECCIONES */
+
+.section {
+    padding: 95px 8%;
+}
+
+.section-heading {
+    max-width: 700px;
+    text-align: center;
+
+    margin: 0 auto 55px;
+}
+
+.section-heading h2 {
+    font-size: 40px;
+    letter-spacing: -1px;
+
+    margin-bottom: 18px;
+}
+
+.section-heading p {
+    color: #777b90;
+    line-height: 1.8;
+    font-size: 15px;
+}
+
+
+/* TARJETAS DE PIEZAS */
+
+.piece-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 18px;
+}
+
+.piece-card {
+    background: white;
+    border: 1px solid #ececf4;
+    border-radius: 16px;
+
+    padding: 25px 12px;
+
+    text-align: center;
+
+    transition: 0.2s;
+}
+
+.piece-card:hover,
+.piece-card.active {
+    border-color: #7561ee;
+    box-shadow: 0 10px 25px #7561ee12;
+    transform: translateY(-4px);
+}
+
+.piece-symbol {
+    display: block;
+    font-size: 52px;
+    color: #7561ee;
+
+    margin-bottom: 15px;
+}
+
+.piece-card h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.piece-card p {
+    font-size: 12px;
+    color: #85879a;
+}
+
+
+/* DETALLE DE LECCIÓN */
+
+.lesson-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+
+    align-items: center;
+
+    margin-top: 50px;
+
+    padding: 45px;
+
+    background: white;
+    border: 1px solid #ececf4;
+    border-radius: 20px;
+}
+
+.lesson-description h3 {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.lesson-description > p {
+    color: #777b90;
+    line-height: 1.9;
+    margin-bottom: 25px;
+}
+
+.tip {
+    background: #f3f0ff;
+    border-radius: 10px;
+
+    padding: 18px;
+
+    margin-bottom: 25px;
+
+    color: #6255b4;
+
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.tip strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.lesson-visual {
+    max-width: 400px;
+    width: 100%;
+    margin: auto;
+}
+
+.board-caption {
+    color: #888b9e;
+    font-size: 12px;
+    line-height: 1.6;
+    text-align: center;
+
+    margin-top: 15px;
+}
+
+
+/* TABLEROS */
+
+.mini-board,
+.chessboard {
+    display: grid;
+
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-template-rows: repeat(8, minmax(0, 1fr));
+
+    width: 100%;
+    aspect-ratio: 1 / 1;
+
+    border: 6px solid #ffffff;
+    border-radius: 5px;
+
+    overflow: hidden;
+
+    box-shadow: 0 10px 30px #00000012;
+}
+
+.square {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 0;
+    min-height: 0;
+
+    border: none;
+    padding: 0;
+
+    font-size: clamp(16px, 3vw, 42px);
+    line-height: 1;
+
+    user-select: none;
+}
+
+.light {
+    background: #f0d9b5;
+}
+
+.dark {
+    background: #b58863;
+}
+
+.square .piece {
+    position: relative;
+    z-index: 2;
+
+    color: #fffdf4;
+
+    text-shadow:
+        1px 1px 1px #272727,
+        -1px -1px 1px #272727;
+
+    cursor: pointer;
+}
+
+.square .piece.black {
+    color: #171717;
+
+    text-shadow:
+        1px 1px 1px #fff,
+        -1px -1px 1px #fff;
+}
+
+.square.move-target::after {
+    content: "";
+
+    position: absolute;
+
+    width: 28%;
+    height: 28%;
+
+    background: #16884e;
+    border-radius: 50%;
+
+    opacity: 0.7;
+}
+
+.square.capture-target::after {
+    content: "";
+
+    position: absolute;
+    inset: 4px;
+
+    border: 5px solid #16884e;
+    border-radius: 50%;
+
+    opacity: 0.7;
+}
+
+.square.selected {
+    background: #f5e85b !important;
+}
+
+.square.correct {
+    background: #b6f0c8 !important;
+}
+
+.square.wrong {
+    background: #ffc9c9 !important;
+}
+
+
+/* REGLAS */
+
+.rules-section {
+    background: #f0edff;
+}
+
+.rules-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.rule-card {
+    background: white;
+
+    padding: 28px;
+
+    border-radius: 16px;
+    border: 1px solid #e6e1ff;
+}
+
+.rule-card > span {
+    display: block;
+    font-size: 35px;
+    color: #7561ee;
+
+    margin-bottom: 18px;
+}
+
+.rule-card h3 {
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+.rule-card p {
+    color: #777b90;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+
+/* PRÁCTICA */
+
+.practice-section {
+    background: #20243a;
+    color: white;
+}
+
+.practice-section .section-heading p {
+    color: #c0c2d2;
+}
+
+.practice-layout {
+    display: grid;
+
+    grid-template-columns: 0.8fr 1.2fr;
+
+    gap: 50px;
+
+    align-items: center;
+
+    max-width: 1000px;
+    margin: auto;
+}
+
+.practice-info h3 {
+    font-size: 28px;
+    margin-bottom: 18px;
+}
+
+.practice-info > p {
+    color: #c0c2d2;
+    font-size: 14px;
+    line-height: 1.8;
+
+    margin-bottom: 25px;
+}
+
+.piece-selector {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+
+.selector-btn {
+    border: 1px solid #454961;
+    border-radius: 8px;
+
+    background: #2b3048;
+    color: white;
+
+    padding: 12px;
+
+    font-size: 13px;
+}
+
+.selector-btn.active {
+    background: #7561ee;
+    border-color: #7561ee;
+}
+
+.feedback {
+    min-height: 60px;
+
+    padding: 15px;
+
+    border-radius: 10px;
+
+    background: #2b3048;
+
+    color: #c0c2d2;
+
+    font-size: 13px;
+    line-height: 1.7;
+
+    margin-bottom: 18px;
+}
+
+.practice-board-area {
+    width: 100%;
+    max-width: 470px;
+    margin: auto;
+}
+
+.board-label {
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 12px;
+    color: #c0c2d2;
+
+    margin-bottom: 15px;
+}
+
+.practice-board-area .chessboard {
+    border-color: #ffffff;
+}
+
+.practice-board-area .square {
+    cursor: pointer;
+}
+
+
+/* QUIZ */
+
+.quiz-section {
+    background: #f8f9fc;
+}
+
+.quiz-card {
+    max-width: 650px;
+    margin: auto;
+
+    padding: 35px;
+
+    background: white;
+
+    border: 1px solid #ececf4;
+    border-radius: 18px;
+
+    box-shadow: 0 15px 40px #00000008;
+}
+
+.quiz-progress {
+    display: flex;
+    justify-content: space-between;
+
+    color: #777b90;
+    font-size: 12px;
+
+    margin-bottom: 15px;
+}
+
+.progress-track {
+    height: 8px;
+
+    background: #efedfa;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    margin-bottom: 30px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+
+    background: #7561ee;
+
+    transition: 0.3s;
+}
+
+.quiz-card h3 {
+    font-size: 23px;
+    line-height: 1.5;
+
+    margin-bottom: 25px;
+}
+
+.quiz-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.quiz-option {
+    background: white;
+
+    border: 1px solid #e5e5ef;
+    border-radius: 10px;
+
+    padding: 16px;
+
+    text-align: left;
+
+    color: #35354a;
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+.quiz-option:hover {
+    border-color: #7561ee;
+}
+
+.quiz-option.correct {
+    background: #e6f8ed;
+    border-color: #35a56f;
+}
+
+.quiz-option.wrong {
+    background: #fff0f0;
+    border-color: #dc7777;
+}
+
+.quiz-feedback {
+    min-height: 45px;
+
+    color: #777b90;
+    font-size: 13px;
+    line-height: 1.7;
+
+    margin: 20px 0;
+}
+
+
+/* FINAL */
+
+.final-section {
+    text-align: center;
+
+    padding: 80px 8%;
+
+    background: #efedff;
+}
+
+.final-piece {
+    display: block;
+
+    color: #7561ee;
+    font-size: 60px;
+
+    margin-bottom: 20px;
+}
+
+.final-section h2 {
+    font-size: 34px;
+    margin-bottom: 20px;
+}
+
+.final-section p {
+    color: #777b90;
+    line-height: 1.8;
+    margin-bottom: 25px;
+}
+
+
+/* PIE DE PÁGINA */
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 30px 8%;
+
+    background: white;
+}
+
+.footer p,
+.footer span {
+    color: #85879a;
+    font-size: 12px;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+
+    .hero {
+        padding: 70px 6%;
+    }
+
+    .hero h1 {
+        font-size: 45px;
+    }
+
+    .hero-visual {
+        width: 280px;
+        height: 280px;
+    }
+
+    .hero-circle {
+        width: 260px;
+        height: 260px;
+    }
+
+    .hero-knight {
+        font-size: 175px;
+    }
+
+    .piece-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .rules-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .lesson-detail {
+        gap: 30px;
+        padding: 30px;
+    }
+
+    .practice-layout {
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
+
+}
+
+@media (max-width: 700px) {
+
+    .navbar {
+        padding: 18px 5%;
+    }
+
+    nav {
+        display: none;
+    }
+
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 50px;
+
+        padding: 60px 7%;
+    }
+
+    .hero h1 {
+        font-size: 40px;
+    }
+
+    .hero-text p {
+        font-size: 14px;
+    }
+
+    .stats {
+        justify-content: center;
+        gap: 25px;
+    }
+
+    .hero-visual {
+        width: 240px;
+        height: 240px;
+    }
+
+    .hero-circle {
+        width: 230px;
+        height: 230px;
+    }
+
+    .hero-knight {
+        font-size: 150px;
+    }
+
+    .hero-card {
+        left: -15px;
+        bottom: -10px;
+    }
+
+    .section {
+        padding: 70px 6%;
+    }
+
+    .section-heading h2 {
+        font-size: 32px;
+    }
+
+    .piece-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .lesson-detail {
+        grid-template-columns: 1fr;
+        padding: 22px;
+    }
+
+    .lesson-description h3 {
+        font-size: 25px;
+    }
+
+    .rules-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .practice-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .practice-info h3 {
+        font-size: 25px;
+    }
+
+    .quiz-card {
+        padding: 22px;
+    }
+
+    .quiz-options {
+        grid-template-columns: 1fr;
+    }
+
+    .final-section h2 {
+        font-size: 28px;
+    }
+
+    .footer {
+        flex-direction: column;
+        gap: 18px;
+        text-align: center;
+    }
+
+}
+
+/* =====================================
+   JUEGO CONTRA LA IA
+===================================== */
+
+.bot-section {
+    background: #f0edff;
+}
+
+.bot-container {
+    max-width: 1050px;
+    margin: auto;
+
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 45px;
+
+    align-items: start;
+
+    background: white;
+    padding: 35px;
+
+    border-radius: 20px;
+    border: 1px solid #e8e4fa;
+
+    box-shadow: 0 15px 40px #00000008;
+}
+
+.bot-sidebar h3 {
+    font-size: 25px;
+    margin-bottom: 15px;
+}
+
+.bot-sidebar > p {
+    font-size: 14px;
+    color: #777b90;
+    line-height: 1.8;
+    margin-bottom: 25px;
+}
+
+.bot-sidebar label {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#bot-level {
+    width: 100%;
+    padding: 14px;
+
+    background: #f8f7ff;
+    border: 1px solid #ddd8f5;
+    border-radius: 9px;
+
+    color: #35354a;
+    font-size: 13px;
+
+    margin-bottom: 25px;
+}
+
+.bot-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    padding: 17px;
+
+    background: #f3f0ff;
+    border-radius: 12px;
+
+    margin-bottom: 20px;
+}
+
+.bot-avatar {
+    width: 55px;
+    height: 55px;
+
+    flex-shrink: 0;
+
+    display: grid;
+    place-items: center;
+
+    background: white;
+    color: #7561ee;
+
+    border-radius: 12px;
+
+    font-size: 36px;
+}
+
+.bot-profile div:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.bot-profile strong {
+    font-size: 14px;
+}
+
+.bot-profile span {
+    font-size: 11px;
+    color: #777b90;
+}
+
+.game-status {
+    padding: 16px;
+
+    background: #f8f7ff;
+    border-left: 4px solid #7561ee;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+    line-height: 1.7;
+
+    margin-bottom: 20px;
+}
+
+.game-buttons .primary-button {
+    width: 100%;
+}
+
+.move-history {
+    margin-top: 30px;
+    padding-top: 20px;
+
+    border-top: 1px solid #ececf4;
+}
+
+.move-history h4 {
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+
+#move-history-list {
+    min-height: 45px;
+
+    color: #777b90;
+    font-size: 12px;
+    line-height: 1.9;
+
+    overflow-wrap: anywhere;
+}
+
+.bot-board-container {
+    width: 100%;
+    max-width: 490px;
+    margin: auto;
+}
+
+.bot-player {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 13px 5px;
+}
+
+.player-icon {
+    font-size: 30px;
+    color: #7561ee;
+}
+
+.bot-player div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.bot-player strong {
+    font-size: 14px;
+}
+
+.bot-player div span {
+    font-size: 11px;
+    color: #85879a;
+}
+
+.human-player {
+    margin-top: 8px;
+}
+
+.bot-chessboard {
+    border: 7px solid white;
+    box-shadow: 0 10px 30px #00000018;
+}
+
+.bot-chessboard .square {
+    cursor: pointer;
+    font-size: clamp(21px, 4vw, 45px);
+}
+
+.bot-chessboard .square.selected {
+    background: #f5e85b !important;
+}
+
+.bot-chessboard .square.last-move {
+    background: #d9e7a4;
+}
+
+.bot-chessboard .square.bot-legal::after {
+    content: "";
+
+    position: absolute;
+
+    width: 27%;
+    height: 27%;
+
+    background: #16884e;
+    opacity: 0.65;
+
+    border-radius: 50%;
+}
+
+.bot-chessboard .square.bot-capture::after {
+    content: "";
+
+    position: absolute;
+    inset: 3px;
+
+    border: 5px solid #16884e;
+    border-radius: 50%;
+    opacity: 0.65;
+}
+
+.bot-chessboard .piece {
+    z-index: 2;
+    position: relative;
+}
+
+@media (max-width: 750px) {
+
+    .bot-container {
+        grid-template-columns: 1fr;
+        padding: 22px;
+        gap: 30px;
+    }
+
+    .bot-board-container {
+        max-width: 100%;
+    }
+
+}
