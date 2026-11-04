@@ -964,6 +964,11 @@ showQuestion();
    CHESS ACADEMY - BOT DE AJEDREZ
 ===================================== */
 
+
+/* =====================================
+   CHESS ACADEMY - BOT DE AJEDREZ
+===================================== */
+
 const botGame = new Chess();
 
 const botBoard = document.getElementById("bot-board");
@@ -979,73 +984,78 @@ let botSelectedSquare = null;
 let botLegalMoves = [];
 let botThinking = false;
 let botLastMove = null;
+let gameOver = false;
 
 const chessSymbols = {
-    wk: "♔",
-    wq: "♕",
-    wr: "♖",
-    wb: "♗",
-    wn: "♘",
-    wp: "♙",
-
-    bk: "♚",
-    bq: "♛",
-    br: "♜",
-    bb: "♝",
-    bn: "♞",
-    bp: "♟"
+    wk: "♔", wq: "♕", wr: "♖",
+    wb: "♗", wn: "♘", wp: "♙",
+    bk: "♚", bq: "♛", br: "♜",
+    bb: "♝", bn: "♞", bp: "♟"
 };
 
 const pieceValues = {
-    p: 1,
-    n: 3,
-    b: 3,
-    r: 5,
-    q: 9,
-    k: 100
+    p: 100,
+    n: 320,
+    b: 330,
+    r: 500,
+    q: 900,
+    k: 20000
 };
 
 
 /* =====================================
-   CONFIGURAR BOT
+   BOTÓN DESHACER
+===================================== */
+
+const undoButton = document.createElement("button");
+
+undoButton.type = "button";
+undoButton.id = "undo-game";
+undoButton.className = "undo-game-button";
+undoButton.textContent = "↶ Deshacer movimiento";
+
+newGameButton.parentElement.appendChild(undoButton);
+
+undoButton.addEventListener("click", undoLastTurn);
+
+
+/* =====================================
+   PERFIL Y DIFICULTAD
 ===================================== */
 
 function updateBotProfile() {
 
-    const level = botLevel.value;
-
     const profiles = {
-
         easy: {
             name: "Bot Principiante",
-            description: "Un rival para comenzar a practicar."
+            description: "Un rival tranquilo para aprender y practicar."
         },
 
         medium: {
             name: "Bot Estratega",
-            description: "Busca capturas y movimientos de ataque."
+            description: "Analiza capturas, jaques y el valor de las piezas."
         },
 
         hard: {
             name: "Bot Maestro",
-            description: "Intenta encontrar jugadas más valiosas."
+            description: "Analiza posibles respuestas antes de decidir su jugada."
         }
-
     };
 
-    const profile = profiles[level];
+    const profile = profiles[botLevel.value];
 
     botName.textContent = profile.name;
     botPlayerName.textContent = profile.name;
-    botDescription.textContent = profile.description;
-
 }
 
-botLevel.addEventListener("change", updateBotProfile);
+botLevel.addEventListener("change", () => {
+    updateBotProfile();
+    startNewBotGame();
+});
 
 
 /* =====================================
-   DIBUJAR TABLERO COMPLETO
+   DIBUJAR TABLERO
 ===================================== */
 
 function renderBotBoard() {
@@ -1062,7 +1072,6 @@ function renderBotBoard() {
         ? history[history.length - 1]
         : null;
 
-
     for (let row = 0; row < 8; row++) {
 
         for (let col = 0; col < 8; col++) {
@@ -1073,95 +1082,63 @@ function renderBotBoard() {
 
             square.className =
                 "square " +
-                (
-                    (row + col) % 2 === 0
-                        ? "light"
-                        : "dark"
-                );
+                ((row + col) % 2 === 0 ? "light" : "dark");
 
-            const file = "abcdefgh"[col];
-            const rank = 8 - row;
-
-            const squareName = file + rank;
-
+            const squareName = "abcdefgh"[col] + (8 - row);
             const piece = board[row][col];
 
             if (piece) {
 
-                const symbol =
-                    chessSymbols[piece.color + piece.type];
-
-                const pieceElement =
-                    document.createElement("span");
+                const pieceElement = document.createElement("span");
 
                 pieceElement.className =
-                    "piece " +
-                    (
-                        piece.color === "b"
-                            ? "black"
-                            : ""
-                    );
+                    "piece " + (piece.color === "b" ? "black" : "");
 
-                pieceElement.textContent = symbol;
+                pieceElement.textContent =
+                    chessSymbols[piece.color + piece.type];
 
                 square.appendChild(pieceElement);
-
             }
-
 
             if (squareName === botSelectedSquare) {
                 square.classList.add("selected");
             }
 
-
             if (
                 lastMove &&
-                (
-                    squareName === lastMove.from ||
-                    squareName === lastMove.to
-                )
+                (squareName === lastMove.from ||
+                 squareName === lastMove.to)
             ) {
                 square.classList.add("last-move");
             }
 
-
-            const isLegalMove =
-                botLegalMoves.find(
-                    move => move.to === squareName
-                );
-
-            if (isLegalMove) {
-
-                const destinationPiece =
-                    botGame.get(squareName);
-
-                square.classList.add(
-                    destinationPiece
-                        ? "bot-capture"
-                        : "bot-legal"
-                );
-
-            }
-
-
-            square.addEventListener(
-                "click",
-                () => handleBotSquareClick(squareName)
+            const legalMove = botLegalMoves.find(
+                move => move.to === squareName
             );
 
+            if (legalMove) {
+
+                const destinationPiece = botGame.get(squareName);
+
+                square.classList.add(
+                    destinationPiece ? "bot-capture" : "bot-legal"
+                );
+            }
+
+            square.addEventListener("click", () => {
+                handleBotSquareClick(squareName);
+            });
+
             botBoard.appendChild(square);
-
         }
-
     }
 
     updateMoveHistory();
-
 }
 
 
 /* =====================================
-   SELECCIONAR Y MOVER PIEZAS
+   SELECCIÓN DE PIEZAS
 ===================================== */
 
 function handleBotSquareClick(squareName) {
@@ -1174,40 +1151,21 @@ function handleBotSquareClick(squareName) {
         return;
     }
 
-
-    // Si ya hay una pieza seleccionada,
-    // comprobamos si puede moverse a esta casilla.
-
     if (botSelectedSquare) {
 
-        const selectedMove =
-            botLegalMoves.find(
-                move => move.to === squareName
-            );
+        const selectedMove = botLegalMoves.find(
+            move => move.to === squareName
+        );
 
         if (selectedMove) {
-
-            makeHumanMove(
-                botSelectedSquare,
-                squareName
-            );
-
+            makeHumanMove(botSelectedSquare, squareName);
             return;
-
         }
-
     }
 
+    const selectedPiece = botGame.get(squareName);
 
-    // Seleccionar una pieza blanca.
-
-    const selectedPiece =
-        botGame.get(squareName);
-
-    if (
-        selectedPiece &&
-        selectedPiece.color === "w"
-    ) {
+    if (selectedPiece && selectedPiece.color === "w") {
 
         botSelectedSquare = squareName;
 
@@ -1219,7 +1177,7 @@ function handleBotSquareClick(squareName) {
         renderBotBoard();
 
         gameStatus.textContent =
-            "Elige una casilla verde para realizar tu movimiento.";
+            "Elige una casilla disponible para mover tu pieza.";
 
     } else {
 
@@ -1227,9 +1185,7 @@ function handleBotSquareClick(squareName) {
         botLegalMoves = [];
 
         renderBotBoard();
-
     }
-
 }
 
 
@@ -1239,50 +1195,125 @@ function handleBotSquareClick(squareName) {
 
 function makeHumanMove(from, to) {
 
-    try {
+    const move = botGame.move({
+        from,
+        to,
+        promotion: "q"
+    });
 
-        const move = botGame.move({
-            from: from,
-            to: to,
-            promotion: "q"
-        });
+    if (!move) return;
 
-        if (!move) {
-            return;
-        }
+    botSelectedSquare = null;
+    botLegalMoves = [];
 
-        botSelectedSquare = null;
-        botLegalMoves = [];
+    renderBotBoard();
+    updateGameStatus();
 
-        renderBotBoard();
-        updateGameStatus();
+    if (!botGame.game_over()) {
 
-        if (!botGame.game_over()) {
+        botThinking = true;
 
-            botThinking = true;
+        gameStatus.textContent = "El bot está pensando...";
 
-            gameStatus.textContent =
-                "El bot está pensando...";
-
-            setTimeout(() => {
-
-                makeBotMove();
-
-            }, 650);
-
-        }
-
-    } catch (error) {
-
-        console.error("Error al realizar el movimiento:", error);
-
+        setTimeout(makeBotMove, 500);
     }
-
 }
 
 
 /* =====================================
-   INTELIGENCIA DEL BOT
+   EVALUACIÓN DEL TABLERO
+===================================== */
+
+function evaluateBoard() {
+
+    if (botGame.in_checkmate()) {
+        return botGame.turn() === "b" ? -100000 : 100000;
+    }
+
+    if (botGame.in_draw()) {
+        return 0;
+    }
+
+    let score = 0;
+
+    const board = botGame.board();
+
+    for (let row = 0; row < 8; row++) {
+
+        for (let col = 0; col < 8; col++) {
+
+            const piece = board[row][col];
+
+            if (!piece) continue;
+
+            let value = pieceValues[piece.type];
+
+            // Pequeña bonificación por ocupar el centro.
+            if (
+                (row === 3 || row === 4) &&
+                (col === 3 || col === 4)
+            ) {
+                value += 15;
+            }
+
+            score += piece.color === "b" ? value : -value;
+        }
+    }
+
+    return score;
+}
+
+
+/* =====================================
+   BÚSQUEDA DE JUGADAS
+===================================== */
+
+function minimax(depth, alpha, beta) {
+
+    if (depth === 0 || botGame.game_over()) {
+        return evaluateBoard();
+    }
+
+    const moves = botGame.moves({
+        verbose: true
+    });
+
+    const maximizing = botGame.turn() === "b";
+
+    let bestScore = maximizing ? -Infinity : Infinity;
+
+    for (const move of moves) {
+
+        botGame.move({
+            from: move.from,
+            to: move.to,
+            promotion: move.promotion || "q"
+        });
+
+        const score = minimax(depth - 1, alpha, beta);
+
+        botGame.undo();
+
+        if (maximizing) {
+
+            bestScore = Math.max(bestScore, score);
+            alpha = Math.max(alpha, bestScore);
+
+        } else {
+
+            bestScore = Math.min(bestScore, score);
+            beta = Math.min(beta, bestScore);
+        }
+
+        if (beta <= alpha) break;
+    }
+
+    return bestScore;
+}
+
+
+/* =====================================
+   ELEGIR MOVIMIENTO DEL BOT
 ===================================== */
 
 function chooseBotMove() {
@@ -1291,110 +1322,90 @@ function chooseBotMove() {
         verbose: true
     });
 
-    if (!moves.length) {
-        return null;
-    }
+    if (!moves.length) return null;
 
     const level = botLevel.value;
 
-
-    // PRINCIPIANTE: movimientos aleatorios.
-
+    // NIVEL PRINCIPIANTE
     if (level === "easy") {
 
         return moves[
             Math.floor(Math.random() * moves.length)
         ];
-
     }
 
+    // NIVEL ESTRATEGA
+    if (level === "medium") {
 
-    // ESTRATEGA Y MAESTRO:
-    // Evalúan capturas, jaques y promociones.
+        const scoredMoves = moves.map(move => {
 
-    const scoredMoves = moves.map(move => {
+            let score = 0;
 
-        let score = 0;
+            if (move.captured) {
+                score += pieceValues[move.captured];
+            }
 
-        // Valor de las piezas capturadas.
-        if (move.captured) {
+            if (move.promotion) {
+                score += 800;
+            }
 
-            score +=
-                pieceValues[move.captured] * 10;
+            botGame.move({
+                from: move.from,
+                to: move.to,
+                promotion: move.promotion || "q"
+            });
 
-        }
+            if (botGame.in_checkmate()) {
+                score += 100000;
+            } else if (botGame.in_check()) {
+                score += 50;
+            }
 
+            botGame.undo();
 
-        // Promocionar un peón es muy valioso.
-        if (move.promotion) {
+            return { move, score };
+        });
 
-            score += 80;
+        scoredMoves.sort((a, b) => b.score - a.score);
 
-        }
+        const bestScore = scoredMoves[0].score;
 
+        const bestMoves = scoredMoves.filter(
+            item => item.score === bestScore
+        );
 
-        // Comprobamos si la jugada da jaque.
+        return bestMoves[
+            Math.floor(Math.random() * bestMoves.length)
+        ].move;
+    }
+
+    // NIVEL MAESTRO
+    let bestMove = null;
+    let bestScore = -Infinity;
+    let alpha = -Infinity;
+    const beta = Infinity;
+
+    for (const move of moves) {
+
         botGame.move({
             from: move.from,
             to: move.to,
             promotion: move.promotion || "q"
         });
 
-        if (botGame.in_checkmate()) {
-
-            score += 10000;
-
-        } else if (botGame.in_check()) {
-
-            score += level === "hard" ? 12 : 5;
-
-        }
+        const score = minimax(2, alpha, beta);
 
         botGame.undo();
 
-
-        // El nivel maestro valora el control central.
-        if (level === "hard") {
-
-            const centralSquares = [
-                "c3", "d3", "e3", "f3",
-                "c4", "d4", "e4", "f4",
-                "c5", "d5", "e5", "f5",
-                "c6", "d6", "e6", "f6"
-            ];
-
-            if (centralSquares.includes(move.to)) {
-                score += 2;
-            }
-
+        if (score > bestScore) {
+            bestScore = score;
+            bestMove = move;
         }
 
-        return {
-            move: move,
-            score: score
-        };
+        alpha = Math.max(alpha, bestScore);
+    }
 
-    });
-
-
-    scoredMoves.sort(
-        (a, b) => b.score - a.score
-    );
-
-
-    // Entre las mejores jugadas se elige una al azar
-    // para que el bot no repita siempre el mismo patrón.
-
-    const bestScore = scoredMoves[0].score;
-
-    const bestMoves = scoredMoves.filter(
-        item => item.score === bestScore
-    );
-
-    return bestMoves[
-        Math.floor(Math.random() * bestMoves.length)
-    ].move;
-
+    return bestMove;
 }
 
 
@@ -1410,7 +1421,6 @@ function makeBotMove() {
         updateGameStatus();
 
         return;
-
     }
 
     const move = chooseBotMove();
@@ -1422,14 +1432,12 @@ function makeBotMove() {
             to: move.to,
             promotion: move.promotion || "q"
         });
-
     }
 
     botThinking = false;
 
     renderBotBoard();
     updateGameStatus();
-
 }
 
 
@@ -1441,70 +1449,53 @@ function updateGameStatus() {
 
     if (botGame.in_checkmate()) {
 
-        if (botGame.turn() === "w") {
+        gameOver = true;
 
-            gameStatus.textContent =
-                "¡Jaque mate! El bot ha ganado esta partida.";
-
-        } else {
-
-            gameStatus.textContent =
-                "¡JAQUE MATE! ¡Has ganado la partida!";
-
-        }
+        gameStatus.textContent =
+            botGame.turn() === "w"
+                ? "¡Jaque mate! El bot ha ganado."
+                : "¡JAQUE MATE! ¡Has ganado la partida!";
 
         return;
-
     }
-
 
     if (botGame.in_stalemate()) {
 
+        gameOver = true;
         gameStatus.textContent =
             "¡Tablas! La partida terminó en ahogado.";
 
         return;
-
     }
-
 
     if (botGame.in_draw()) {
 
+        gameOver = true;
         gameStatus.textContent =
             "La partida terminó en tablas.";
 
         return;
-
     }
-
 
     if (botGame.in_check()) {
 
         gameStatus.textContent =
-            "¡Jaque! Tu rey está amenazado.";
+            botGame.turn() === "w"
+                ? "¡Cuidado! Tu rey está en jaque."
+                : "¡El bot está en jaque!";
 
         return;
-
     }
 
-
-    if (botGame.turn() === "w") {
-
-        gameStatus.textContent =
-            "¡Tu turno! Mueve una pieza blanca.";
-
-    } else {
-
-        gameStatus.textContent =
-            "Turno del bot. Está pensando...";
-
-    }
-
+    gameStatus.textContent =
+        botGame.turn() === "w"
+            ? "¡Tu turno! Mueve una pieza blanca."
+            : "Turno del bot. Está pensando...";
 }
 
 
 /* =====================================
-   HISTORIAL DE MOVIMIENTOS
+   HISTORIAL
 ===================================== */
 
 function updateMoveHistory() {
@@ -1517,30 +1508,54 @@ function updateMoveHistory() {
             "Todavía no hay movimientos.";
 
         return;
-
     }
 
     let html = "";
 
     for (let i = 0; i < history.length; i += 2) {
 
-        const turnNumber = Math.floor(i / 2) + 1;
-
-        const whiteMove = history[i] || "";
-        const blackMove = history[i + 1] || "";
+        const turn = Math.floor(i / 2) + 1;
 
         html += `
-            <div>
-                <strong>${turnNumber}.</strong>
-                ${whiteMove}
-                &nbsp; ${blackMove}
+            <div class="move-row">
+                <strong>${turn}.</strong>
+                <span>${history[i] || ""}</span>
+                <span>${history[i + 1] || ""}</span>
             </div>
         `;
-
     }
 
     moveHistoryList.innerHTML = html;
+}
 
+
+/* =====================================
+   DESHACER MOVIMIENTO
+===================================== */
+
+function undoLastTurn() {
+
+    if (botThinking) return;
+
+    if (botGame.history().length === 0) {
+        gameStatus.textContent = "Todavía no hay movimientos para deshacer.";
+        return;
+    }
+
+    // Deshacer primero la jugada del bot, si existe.
+    if (botGame.turn() === "w" && botGame.history().length >= 2) {
+        botGame.undo();
+        botGame.undo();
+    } else {
+        botGame.undo();
+    }
+
+    botSelectedSquare = null;
+    botLegalMoves = [];
+    gameOver = false;
+
+    renderBotBoard();
+    updateGameStatus();
 }
 
 
@@ -1554,8 +1569,8 @@ function startNewBotGame() {
 
     botSelectedSquare = null;
     botLegalMoves = [];
-
     botThinking = false;
+    gameOver = false;
 
     updateBotProfile();
 
@@ -1563,19 +1578,14 @@ function startNewBotGame() {
 
     gameStatus.textContent =
         "¡Nueva partida! Tú juegas con las blancas. ¡Comienza!";
-
 }
 
-newGameButton.addEventListener(
-    "click",
-    startNewBotGame
-);
+newGameButton.addEventListener("click", startNewBotGame);
 
 
 /* =====================================
-   INICIAR JUEGO
+   INICIALIZAR
 ===================================== */
 
 updateBotProfile();
-
 startNewBotGame();
